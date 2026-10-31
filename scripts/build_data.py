@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""AralWatch pipeline: ERA5 daily precip/ET0 (via Open-Meteo archive API) -> drought indicators JSON.
+"""AralWatch pipeline: ERA5 daily precipitation (via Open-Meteo archive API) -> drought indicators JSON.
 Usage: python scripts/build_data.py            (live data)
        python scripts/build_data.py --demo     (synthetic data, for local testing only)"""
 import json, sys, time, datetime as dt
@@ -31,23 +31,26 @@ PTS = [
  ("Balkanabat","TM",39.51,54.37,""),
 ]
 
-def fetch(chunk, end):
-    q = dict(latitude=",".join(str(p[2]) for p in chunk), longitude=",".join(str(p[3]) for p in chunk),
-             start_date=START, end_date=end, daily="precipitation_sum,et0_fao_evapotranspiration", timezone="UTC")
-    for a in range(6):
-        r = requests.get(API, params=q, timeout=180)
-        if r.status_code == 200:
-            j = r.json(); return j if isinstance(j, list) else [j]
-        time.sleep(30 * (a + 1))
-    r.raise_for_status()
+S = requests.Session()
 
-def demo(chunk, end):
-    rng = np.random.default_rng(1); d = pd.date_range(START, end); doy = d.dayofyear.values; out = []
-    for _ in chunk:
-        pr = rng.gamma(.4, 6, len(d)) * (np.sin((doy - 60) / 365 * 2 * np.pi) * .4 + .6) * (rng.random(len(d)) < .3)
-        out.append({"daily": {"time": [x.strftime("%Y-%m-%d") for x in d], "precipitation_sum": pr.tolist(),
-                    "et0_fao_evapotranspiration": (3 + 2.5 * np.sin((doy - 100) / 365 * 2 * np.pi)).tolist()}})
-    return out
+def fetch(p, end):
+    """One location per request, precipitation only: small, fast, and retried on timeouts/rate limits."""
+    q = dict(latitude=p[2], longitude=p[3], start_date=START, end_date=end, daily="precipitation_sum", timezone="UTC")
+    err = None
+    for a in range(6):
+        try:
+            r = S.get(API, params=q, timeout=90)
+            if r.status_code == 200: return r.json()
+            err = f"HTTP {r.status_code}: {r.text[:120]}"
+        except requests.RequestException as e:
+            err = repr(e)[:150]
+        wait = 20 * (a + 1); print(f"  {p[0]}: {err} -> retry in {wait}s", flush=True); time.sleep(wait)
+    raise RuntimeError(f"{p[0]} failed after retries: {err}")
+
+def demo(p, end):
+    rng = np.random.default_rng(abs(hash(p[0])) % 1000); d = pd.date_range(START, end); doy = d.dayofyear.values
+    pr = rng.gamma(.4, 6, len(d)) * (np.sin((doy - 60) / 365 * 2 * np.pi) * .4 + .6) * (rng.random(len(d)) < .3)
+    return {"daily": {"time": [x.strftime("%Y-%m-%d") for x in d], "precipitation_sum": pr.tolist()}}
 
 def spi(s, k):
     r = s.rolling(k).sum(); out = pd.Series(np.nan, index=r.index)
@@ -76,26 +79,29 @@ def process(j):
     m = p.resample("MS").sum(); m = m[(m.index + pd.offsets.MonthEnd(0)) <= last]
     s3, s12 = spi(m, 3), spi(m, 12)
     ann = m.groupby(m.index.year).agg(["sum", "count"]); ann = ann[ann["count"] == 12]["sum"]
-    et = df["et0_fao_evapotranspiration"].iloc[-90:].sum()
     return dict(last=last, months=[d.strftime("%Y-%m") for d in s3.index[-N:]],
                 spi3=[round(v, 2) for v in s3.iloc[-N:]], spi12=[None if np.isnan(v) else round(v, 2) for v in s12.iloc[-N:]],
                 years=[int(y) for y in ann.index], annual=[round(v) for v in ann.values],
-                anom30=anom30(p), bal90=round(float(p.iloc[-90:].sum() - et)))
+                anom30=anom30(p))
 
 def main():
-    end = (dt.date.today() - dt.timedelta(days=LAG)).isoformat(); pts = []; meta = None
-    for i in range(0, len(PTS), 5):
-        chunk = PTS[i:i + 5]
-        for (n, c, la, lo, crop), j in zip(chunk, (demo if DEMO else fetch)(chunk, end)):
-            r = process(j); meta = meta or r
-            pts.append(dict(id=n.lower(), name=n, country=c, lat=la, lon=lo, crop=crop, ag=bool(crop),
-                            spi3=r["spi3"][-1], spi12=r["spi12"][-1], anom30=r["anom30"], bal90=r["bal90"],
-                            s3=r["spi3"], s12=r["spi12"], annual=r["annual"]))
-        print(f"{len(pts)}/{len(PTS)} regions", flush=True); time.sleep(2)
+    end = (dt.date.today() - dt.timedelta(days=LAG)).isoformat(); pts = []; meta = None; failed = []
+    for p in PTS:
+        n, c, la, lo, crop = p
+        try:
+            r = process((demo if DEMO else fetch)(p, end))
+        except Exception as e:
+            print("SKIP", n, e, flush=True); failed.append(n); continue
+        meta = meta or r
+        pts.append(dict(id=n.lower(), name=n, country=c, lat=la, lon=lo, crop=crop, ag=bool(crop),
+                        spi3=r["spi3"][-1], spi12=r["spi12"][-1], anom30=r["anom30"],
+                        s3=r["spi3"], s12=r["spi12"], annual=r["annual"]))
+        print(f"{len(pts)}/{len(PTS)} {n}", flush=True); time.sleep(1.5)
+    if len(pts) < 0.8 * len(PTS): sys.exit(f"Too many failures ({failed}); not overwriting data")
     out = dict(generated=dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), demo=DEMO,
                data_through=str(meta["last"].date()), baseline=f"{B0}-{B1}", months=meta["months"], years=meta["years"],
                source="ECMWF ERA5 reanalysis via Open-Meteo Historical Weather API", points=pts)
     f = Path(__file__).resolve().parent.parent / "data" / "drought.json"; f.parent.mkdir(exist_ok=True)
-    f.write_text(json.dumps(out, separators=(",", ":"))); print("wrote", f, f.stat().st_size // 1024, "KB")
+    f.write_text(json.dumps(out, separators=(",", ":"))); print("wrote", f, f.stat().st_size // 1024, "KB", "skipped:", failed)
 
 if __name__ == "__main__": main()
