@@ -1,0 +1,151 @@
+{
+ "generated": "2026-11-01T08:38:46+00:00",
+ "method": "rules",
+ "model": null,
+ "text": "As of 2026-10-25, 5 of 37 monitored locations (14%) show moderate or worse short-term drought (SPI-3 at or below -1); 1 are also dry over 12 months. Driest countries right now: Andorra (SPI-3 -2.52), Albania (SPI-3 -1.32), Antigua and Barbuda (SPI-3 -0.99). Fastest deterioration versus last month: Aktobe (-2.09 SPI), Naryn (-1.12 SPI), Karakol (-1.05 SPI). In Central Asia, 3 of 29 agricultural focus areas are under drought stress, led by Karaganda, Bishkek.",
+ "facts": {
+  "data_through": "2026-10-25",
+  "n_locations": 37,
+  "n_drought": 5,
+  "persistent_drought": 1,
+  "by_continent": {
+   "Asia": {
+    "in_drought": 0,
+    "total": 2
+   },
+   "Europe": {
+    "in_drought": 2,
+    "total": 2
+   },
+   "Africa": {
+    "in_drought": 0,
+    "total": 1
+   },
+   "North America": {
+    "in_drought": 0,
+    "total": 1
+   },
+   "South America": {
+    "in_drought": 0,
+    "total": 1
+   },
+   "Oceania": {
+    "in_drought": 0,
+    "total": 1
+   }
+  },
+  "driest": [
+   {
+    "name": "Andorra",
+    "country": "Andorra",
+    "spi3": -2.52,
+    "spi12": 0.41,
+    "rain30_pct": 90.6
+   },
+   {
+    "name": "Albania",
+    "country": "Albania",
+    "spi3": -1.32,
+    "spi12": 0.86,
+    "rain30_pct": -53.9
+   },
+   {
+    "name": "Antigua and Barbuda",
+    "country": "Antigua and Barbuda",
+    "spi3": -0.99,
+    "spi12": -0.22,
+    "rain30_pct": -61.2
+   },
+   {
+    "name": "Armenia",
+    "country": "Armenia",
+    "spi3": -0.24,
+    "spi12": 1.39,
+    "rain30_pct": 24.0
+   },
+   {
+    "name": "Argentina",
+    "country": "Argentina",
+    "spi3": 0.03,
+    "spi12": -0.95,
+    "rain30_pct": 6.3
+   }
+  ],
+  "wettest": [
+   {
+    "name": "Angola",
+    "country": "Angola",
+    "spi3": 1.68,
+    "spi12": -0.61,
+    "rain30_pct": -16.0
+   },
+   {
+    "name": "Australia",
+    "country": "Australia",
+    "spi3": 1.07,
+    "spi12": 1.89,
+    "rain30_pct": 127.0
+   },
+   {
+    "name": "Afghanistan",
+    "country": "Afghanistan",
+    "spi3": 0.6,
+    "spi12": 0.99,
+    "rain30_pct": -100.0
+   }
+  ],
+  "worsening": [
+   {
+    "name": "Aktobe",
+    "country": "Kazakhstan",
+    "spi3": -1.0,
+    "spi12": 0.92,
+    "rain30_pct": -60.0,
+    "change_vs_last_month": -2.09
+   },
+   {
+    "name": "Naryn",
+    "country": "Kyrgyzstan",
+    "spi3": -0.68,
+    "spi12": 0.03,
+    "rain30_pct": 17.1,
+    "change_vs_last_month": -1.12
+   },
+   {
+    "name": "Karakol",
+    "country": "Kyrgyzstan",
+    "spi3": 1.53,
+    "spi12": 2.42,
+    "rain30_pct": -16.3,
+    "change_vs_last_month": -1.05
+   }
+  ],
+  "central_asia": {
+   "ag_total": 29,
+   "ag_in_drought": 3,
+   "driest": [
+    {
+     "name": "Karaganda",
+     "country": "Kazakhstan",
+     "spi3": -1.4,
+     "spi12": -1.9,
+     "rain30_pct": 9.3
+    },
+    {
+     "name": "Bishkek",
+     "country": "Kyrgyzstan",
+     "spi3": -1.23,
+     "spi12": -0.6,
+     "rain30_pct": -43.9
+    },
+    {
+     "name": "Aktobe",
+     "country": "Kazakhstan",
+     "spi3": -1.0,
+     "spi12": 0.92,
+     "rain30_pct": -60.0
+    }
+   ]
+  }
+ }
+}
