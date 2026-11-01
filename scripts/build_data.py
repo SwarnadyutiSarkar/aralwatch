@@ -35,24 +35,111 @@ CA = [
 REGIONS = [dict(id="r-" + n.lower(), name=n, country=CN[c], iso=c, continent="Asia", subregion="Central Asia",
                 lat=la, lon=lo, kind="region", crop=crop) for n, c, la, lo, crop in CA]
 
+# Independent countries (name, ISO2, continent, subregion, lat, lon): REST Countries / mledoze dataset, centre points
+COUNTRIES = [
+ ('Afghanistan', 'AF', 'Asia', 'Southern Asia', 33, 65),('Albania', 'AL', 'Europe', 'Southeast Europe', 41, 20),
+ ('Algeria', 'DZ', 'Africa', 'Northern Africa', 28, 3),('Andorra', 'AD', 'Europe', 'Southern Europe', 42.5, 1.5),
+ ('Angola', 'AO', 'Africa', 'Middle Africa', -12.5, 18.5),('Antigua and Barbuda', 'AG', 'North America', 'Caribbean', 17.05, -61.8),
+ ('Argentina', 'AR', 'South America', 'South America', -34, -64),('Armenia', 'AM', 'Asia', 'Western Asia', 40, 45),
+ ('Australia', 'AU', 'Oceania', 'Australia and New Zealand', -27, 133),('Austria', 'AT', 'Europe', 'Central Europe', 47.33, 13.33),
+ ('Azerbaijan', 'AZ', 'Asia', 'Western Asia', 40.5, 47.5),('Bahamas', 'BS', 'North America', 'Caribbean', 24.25, -76),
+ ('Bahrain', 'BH', 'Asia', 'Western Asia', 26, 50.55),('Bangladesh', 'BD', 'Asia', 'Southern Asia', 24, 90),
+ ('Barbados', 'BB', 'North America', 'Caribbean', 13.17, -59.53),('Belarus', 'BY', 'Europe', 'Eastern Europe', 53, 28),
+ ('Belgium', 'BE', 'Europe', 'Western Europe', 50.83, 4),('Belize', 'BZ', 'North America', 'Central America', 17.25, -88.75),
+ ('Benin', 'BJ', 'Africa', 'Western Africa', 9.5, 2.25),('Bhutan', 'BT', 'Asia', 'Southern Asia', 27.5, 90.5),
+ ('Bolivia', 'BO', 'South America', 'South America', -17, -65),('Bosnia and Herzegovina', 'BA', 'Europe', 'Southeast Europe', 44, 18),
+ ('Botswana', 'BW', 'Africa', 'Southern Africa', -22, 24),('Brazil', 'BR', 'South America', 'South America', -10, -55),
+ ('Brunei', 'BN', 'Asia', 'South-Eastern Asia', 4.5, 114.67),('Bulgaria', 'BG', 'Europe', 'Southeast Europe', 43, 25),
+ ('Burkina Faso', 'BF', 'Africa', 'Western Africa', 13, -2),('Burundi', 'BI', 'Africa', 'Eastern Africa', -3.5, 30),
+ ('Cambodia', 'KH', 'Asia', 'South-Eastern Asia', 13, 105),('Cameroon', 'CM', 'Africa', 'Middle Africa', 6, 12),
+ ('Canada', 'CA', 'North America', 'North America', 60, -95),('Cape Verde', 'CV', 'Africa', 'Western Africa', 16, -24),
+ ('Central African Republic', 'CF', 'Africa', 'Middle Africa', 7, 21),('Chad', 'TD', 'Africa', 'Middle Africa', 15, 19),
+ ('Chile', 'CL', 'South America', 'South America', -30, -71),('China', 'CN', 'Asia', 'Eastern Asia', 35, 105),
+ ('Colombia', 'CO', 'South America', 'South America', 4, -72),('Comoros', 'KM', 'Africa', 'Eastern Africa', -12.17, 44.25),
+ ('Congo', 'CG', 'Africa', 'Middle Africa', -1, 15),('Costa Rica', 'CR', 'North America', 'Central America', 10, -84),
+ ('Croatia', 'HR', 'Europe', 'Southeast Europe', 45.17, 15.5),('Cuba', 'CU', 'North America', 'Caribbean', 21.5, -80),
+ ('Cyprus', 'CY', 'Europe', 'Southern Europe', 35, 33),('Czechia', 'CZ', 'Europe', 'Central Europe', 49.75, 15.5),
+ ('DR Congo', 'CD', 'Africa', 'Middle Africa', 0, 25),('Denmark', 'DK', 'Europe', 'Northern Europe', 56, 10),
+ ('Djibouti', 'DJ', 'Africa', 'Eastern Africa', 11.5, 43),('Dominica', 'DM', 'North America', 'Caribbean', 15.42, -61.33),
+ ('Dominican Republic', 'DO', 'North America', 'Caribbean', 19, -70.67),('Ecuador', 'EC', 'South America', 'South America', -2, -77.5),
+ ('Egypt', 'EG', 'Africa', 'Northern Africa', 27, 30),('El Salvador', 'SV', 'North America', 'Central America', 13.83, -88.92),
+ ('Equatorial Guinea', 'GQ', 'Africa', 'Middle Africa', 2, 10),('Eritrea', 'ER', 'Africa', 'Eastern Africa', 15, 39),
+ ('Estonia', 'EE', 'Europe', 'Northern Europe', 59, 26),('Eswatini', 'SZ', 'Africa', 'Southern Africa', -26.5, 31.5),
+ ('Ethiopia', 'ET', 'Africa', 'Eastern Africa', 8, 38),('Fiji', 'FJ', 'Oceania', 'Melanesia', -18, 175),
+ ('Finland', 'FI', 'Europe', 'Northern Europe', 64, 26),('France', 'FR', 'Europe', 'Western Europe', 46, 2),
+ ('Gabon', 'GA', 'Africa', 'Middle Africa', -1, 11.75),('Gambia', 'GM', 'Africa', 'Western Africa', 13.47, -16.57),
+ ('Georgia', 'GE', 'Asia', 'Western Asia', 42, 43.5),('Germany', 'DE', 'Europe', 'Western Europe', 51, 9),
+ ('Ghana', 'GH', 'Africa', 'Western Africa', 8, -2),('Greece', 'GR', 'Europe', 'Southern Europe', 39, 22),
+ ('Grenada', 'GD', 'North America', 'Caribbean', 12.12, -61.67),('Guatemala', 'GT', 'North America', 'Central America', 15.5, -90.25),
+ ('Guinea', 'GN', 'Africa', 'Western Africa', 11, -10),('Guinea-Bissau', 'GW', 'Africa', 'Western Africa', 12, -15),
+ ('Guyana', 'GY', 'South America', 'South America', 5, -59),('Haiti', 'HT', 'North America', 'Caribbean', 19, -72.42),
+ ('Honduras', 'HN', 'North America', 'Central America', 15, -86.5),('Hungary', 'HU', 'Europe', 'Central Europe', 47, 20),
+ ('Iceland', 'IS', 'Europe', 'Northern Europe', 65, -18),('India', 'IN', 'Asia', 'Southern Asia', 20, 77),
+ ('Indonesia', 'ID', 'Asia', 'South-Eastern Asia', -5, 120),('Iran', 'IR', 'Asia', 'Southern Asia', 32, 53),
+ ('Iraq', 'IQ', 'Asia', 'Western Asia', 33, 44),('Ireland', 'IE', 'Europe', 'Northern Europe', 53, -8),
+ ('Israel', 'IL', 'Asia', 'Western Asia', 31.47, 35.13),('Italy', 'IT', 'Europe', 'Southern Europe', 42.83, 12.83),
+ ('Ivory Coast', 'CI', 'Africa', 'Western Africa', 8, -5),('Jamaica', 'JM', 'North America', 'Caribbean', 18.25, -77.5),
+ ('Japan', 'JP', 'Asia', 'Eastern Asia', 36, 138),('Jordan', 'JO', 'Asia', 'Western Asia', 31, 36),
+ ('Kazakhstan', 'KZ', 'Asia', 'Central Asia', 48, 68),('Kenya', 'KE', 'Africa', 'Eastern Africa', 1, 38),
+ ('Kiribati', 'KI', 'Oceania', 'Micronesia', 1.42, 173),('Kuwait', 'KW', 'Asia', 'Western Asia', 29.5, 45.75),
+ ('Kyrgyzstan', 'KG', 'Asia', 'Central Asia', 41, 75),('Laos', 'LA', 'Asia', 'South-Eastern Asia', 18, 105),
+ ('Latvia', 'LV', 'Europe', 'Northern Europe', 57, 25),('Lebanon', 'LB', 'Asia', 'Western Asia', 33.83, 35.83),
+ ('Lesotho', 'LS', 'Africa', 'Southern Africa', -29.5, 28.5),('Liberia', 'LR', 'Africa', 'Western Africa', 6.5, -9.5),
+ ('Libya', 'LY', 'Africa', 'Northern Africa', 25, 17),('Liechtenstein', 'LI', 'Europe', 'Western Europe', 47.27, 9.53),
+ ('Lithuania', 'LT', 'Europe', 'Northern Europe', 56, 24),('Luxembourg', 'LU', 'Europe', 'Western Europe', 49.75, 6.17),
+ ('Madagascar', 'MG', 'Africa', 'Eastern Africa', -20, 47),('Malawi', 'MW', 'Africa', 'Eastern Africa', -13.5, 34),
+ ('Malaysia', 'MY', 'Asia', 'South-Eastern Asia', 2.5, 112.5),('Maldives', 'MV', 'Asia', 'Southern Asia', 3.25, 73),
+ ('Mali', 'ML', 'Africa', 'Western Africa', 17, -4),('Malta', 'MT', 'Europe', 'Southern Europe', 35.83, 14.58),
+ ('Marshall Islands', 'MH', 'Oceania', 'Micronesia', 9, 168),('Mauritania', 'MR', 'Africa', 'Western Africa', 20, -12),
+ ('Mauritius', 'MU', 'Africa', 'Eastern Africa', -20.28, 57.55),('Mexico', 'MX', 'North America', 'North America', 23, -102),
+ ('Micronesia', 'FM', 'Oceania', 'Micronesia', 6.92, 158.25),('Moldova', 'MD', 'Europe', 'Eastern Europe', 47, 29),
+ ('Monaco', 'MC', 'Europe', 'Western Europe', 43.73, 7.4),('Mongolia', 'MN', 'Asia', 'Eastern Asia', 46, 105),
+ ('Montenegro', 'ME', 'Europe', 'Southeast Europe', 42.5, 19.3),('Morocco', 'MA', 'Africa', 'Northern Africa', 32, -5),
+ ('Mozambique', 'MZ', 'Africa', 'Eastern Africa', -18.25, 35),('Myanmar', 'MM', 'Asia', 'South-Eastern Asia', 22, 98),
+ ('Namibia', 'NA', 'Africa', 'Southern Africa', -22, 17),('Nauru', 'NR', 'Oceania', 'Micronesia', -0.53, 166.92),
+ ('Nepal', 'NP', 'Asia', 'Southern Asia', 28, 84),('Netherlands', 'NL', 'Europe', 'Western Europe', 52.5, 5.75),
+ ('New Zealand', 'NZ', 'Oceania', 'Australia and New Zealand', -41, 174),('Nicaragua', 'NI', 'North America', 'Central America', 13, -85),
+ ('Niger', 'NE', 'Africa', 'Western Africa', 16, 8),('Nigeria', 'NG', 'Africa', 'Western Africa', 10, 8),
+ ('North Korea', 'KP', 'Asia', 'Eastern Asia', 40, 127),('North Macedonia', 'MK', 'Europe', 'Southeast Europe', 41.83, 22),
+ ('Norway', 'NO', 'Europe', 'Northern Europe', 62, 10),('Oman', 'OM', 'Asia', 'Western Asia', 21, 57),
+ ('Pakistan', 'PK', 'Asia', 'Southern Asia', 30, 70),('Palau', 'PW', 'Oceania', 'Micronesia', 7.5, 134.5),
+ ('Panama', 'PA', 'North America', 'Central America', 9, -80),('Papua New Guinea', 'PG', 'Oceania', 'Melanesia', -6, 147),
+ ('Paraguay', 'PY', 'South America', 'South America', -23, -58),('Peru', 'PE', 'South America', 'South America', -10, -76),
+ ('Philippines', 'PH', 'Asia', 'South-Eastern Asia', 13, 122),('Poland', 'PL', 'Europe', 'Central Europe', 52, 20),
+ ('Portugal', 'PT', 'Europe', 'Southern Europe', 39.5, -8),('Qatar', 'QA', 'Asia', 'Western Asia', 25.5, 51.25),
+ ('Romania', 'RO', 'Europe', 'Southeast Europe', 46, 25),('Russia', 'RU', 'Europe', 'Eastern Europe', 60, 100),
+ ('Rwanda', 'RW', 'Africa', 'Eastern Africa', -2, 30),('Saint Kitts and Nevis', 'KN', 'North America', 'Caribbean', 17.33, -62.75),
+ ('Saint Lucia', 'LC', 'North America', 'Caribbean', 13.88, -60.97),
+ ('Saint Vincent and the Grenadines', 'VC', 'North America', 'Caribbean', 13.25, -61.2),('Samoa', 'WS', 'Oceania', 'Polynesia', -13.58, -172.33),
+ ('San Marino', 'SM', 'Europe', 'Southern Europe', 43.77, 12.42),('Saudi Arabia', 'SA', 'Asia', 'Western Asia', 25, 45),
+ ('Senegal', 'SN', 'Africa', 'Western Africa', 14, -14),('Serbia', 'RS', 'Europe', 'Southeast Europe', 44, 21),
+ ('Seychelles', 'SC', 'Africa', 'Eastern Africa', -4.58, 55.67),('Sierra Leone', 'SL', 'Africa', 'Western Africa', 8.5, -11.5),
+ ('Singapore', 'SG', 'Asia', 'South-Eastern Asia', 1.37, 103.8),('Slovakia', 'SK', 'Europe', 'Central Europe', 48.67, 19.5),
+ ('Slovenia', 'SI', 'Europe', 'Central Europe', 46.12, 14.82),('Solomon Islands', 'SB', 'Oceania', 'Melanesia', -8, 159),
+ ('Somalia', 'SO', 'Africa', 'Eastern Africa', 10, 49),('South Africa', 'ZA', 'Africa', 'Southern Africa', -29, 24),
+ ('South Korea', 'KR', 'Asia', 'Eastern Asia', 37, 127.5),('South Sudan', 'SS', 'Africa', 'Middle Africa', 7, 30),
+ ('Spain', 'ES', 'Europe', 'Southern Europe', 40, -4),('Sri Lanka', 'LK', 'Asia', 'Southern Asia', 7, 81),
+ ('Sudan', 'SD', 'Africa', 'Northern Africa', 15, 30),('Suriname', 'SR', 'South America', 'South America', 4, -56),
+ ('Sweden', 'SE', 'Europe', 'Northern Europe', 62, 15),('Switzerland', 'CH', 'Europe', 'Western Europe', 47, 8),
+ ('Syria', 'SY', 'Asia', 'Western Asia', 35, 38),('São Tomé and Príncipe', 'ST', 'Africa', 'Middle Africa', 1, 7),
+ ('Tajikistan', 'TJ', 'Asia', 'Central Asia', 39, 71),('Tanzania', 'TZ', 'Africa', 'Eastern Africa', -6, 35),
+ ('Thailand', 'TH', 'Asia', 'South-Eastern Asia', 15, 100),('Timor-Leste', 'TL', 'Asia', 'South-Eastern Asia', -8.83, 125.92),
+ ('Togo', 'TG', 'Africa', 'Western Africa', 8, 1.17),('Tonga', 'TO', 'Oceania', 'Polynesia', -20, -175),
+ ('Trinidad and Tobago', 'TT', 'North America', 'Caribbean', 11, -61),('Tunisia', 'TN', 'Africa', 'Northern Africa', 34, 9),
+ ('Turkmenistan', 'TM', 'Asia', 'Central Asia', 40, 60),('Tuvalu', 'TV', 'Oceania', 'Polynesia', -8, 178),
+ ('Türkiye', 'TR', 'Asia', 'Western Asia', 39, 35),('Uganda', 'UG', 'Africa', 'Eastern Africa', 1, 32),
+ ('Ukraine', 'UA', 'Europe', 'Eastern Europe', 49, 32),('United Arab Emirates', 'AE', 'Asia', 'Western Asia', 24, 54),
+ ('United Kingdom', 'GB', 'Europe', 'Northern Europe', 54, -2),('United States', 'US', 'North America', 'North America', 38, -97),
+ ('Uruguay', 'UY', 'South America', 'South America', -33, -56),('Uzbekistan', 'UZ', 'Asia', 'Central Asia', 41, 64),
+ ('Vanuatu', 'VU', 'Oceania', 'Melanesia', -16, 167),('Vatican City', 'VA', 'Europe', 'Southern Europe', 41.9, 12.45),
+ ('Venezuela', 'VE', 'South America', 'South America', 8, -66),('Vietnam', 'VN', 'Asia', 'South-Eastern Asia', 16.17, 107.83),
+ ('Yemen', 'YE', 'Asia', 'Western Asia', 15, 48),('Zambia', 'ZM', 'Africa', 'Eastern Africa', -15, 30),
+ ('Zimbabwe', 'ZW', 'Africa', 'Eastern Africa', -20, 30),
+]
+
 def countries():
-    f = DATA / "countries.json"
-    if DEMO:
-        return [dict(id="c-" + i.lower(), name=n, country=n, iso=i, continent=ct, subregion=sr, lat=la, lon=lo, kind="country", crop="")
-                for n, i, ct, sr, la, lo in [("Brazil","BR","South America","South America",-10,-55),("Kenya","KE","Africa","Eastern Africa",1,38),
-                ("India","IN","Asia","Southern Asia",21,78),("France","FR","Europe","Western Europe",46,2),("Australia","AU","Oceania","Australia and New Zealand",-27,133),
-                ("Egypt","EG","Africa","Northern Africa",27,30)]]
-    try:
-        r = requests.get("https://restcountries.com/v3.1/all", timeout=60,
-                         params={"fields": "name,cca2,region,subregion,continents,latlng,independent"}); r.raise_for_status()
-        out = [dict(id="c-" + c["cca2"].lower(), name=c["name"]["common"], country=c["name"]["common"], iso=c["cca2"],
-                    continent=(c.get("continents") or [c["region"]])[0], subregion=c.get("subregion") or c["region"],
-                    lat=c["latlng"][0], lon=c["latlng"][1], kind="country", crop="")
-               for c in r.json() if c.get("independent") and c.get("latlng") and c.get("region") not in (None, "", "Antarctic")]
-        out.sort(key=lambda c: c["name"]); f.write_text(json.dumps(out)); return out
-    except Exception as e:
-        if f.exists(): print("countries: using cached list:", e); return json.loads(f.read_text())
-        raise
+    return [dict(id="c-" + i.lower(), name=n, country=n, iso=i, continent=ct, subregion=sr, lat=la, lon=lo, kind="country", crop="")
+            for n, i, ct, sr, la, lo in (COUNTRIES if not DEMO else COUNTRIES[:6])]
 
 def fetch(lat, lon, start, end):
     q = dict(latitude=lat, longitude=lon, start_date=start, end_date=end, daily="precipitation_sum", models="era5", timezone="UTC")
