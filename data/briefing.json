@@ -1,37 +1,37 @@
 {
- "generated": "2026-11-02T06:03:25+00:00",
+ "generated": "2026-11-02T11:17:39+00:00",
  "method": "rules",
  "model": null,
- "text": "As of 2026-10-26, 45 of 146 monitored locations (31%) show moderate or worse short-term drought (SPI-3 at or below -1); 22 are also dry over 12 months. Driest countries right now: Eritrea (SPI-3 -3.00), Hungary (SPI-3 -2.93), Gabon (SPI-3 -2.68). Europe has the highest share of countries in drought (17 of 31). Fastest deterioration versus last month: Aktobe (-2.09 SPI), Azerbaijan (-1.85 SPI), Montenegro (-1.76 SPI). In Central Asia, 3 of 29 agricultural focus areas are under drought stress, led by Karaganda, Bishkek.",
+ "text": "As of 2026-10-26, 62 of 182 monitored locations (34%) show moderate or worse short-term drought (SPI-3 at or below -1); 31 are also dry over 12 months. Driest countries right now: Eritrea (SPI-3 -3.00), Papua New Guinea (SPI-3 -3.00), South Sudan (SPI-3 -3.00). Europe has the highest share of countries in drought (23 of 42). Fastest deterioration versus last month: Aktobe (-2.09 SPI), Azerbaijan (-1.85 SPI), Montenegro (-1.76 SPI). In Central Asia, 3 of 29 agricultural focus areas are under drought stress, led by Karaganda, Bishkek.",
  "facts": {
   "data_through": "2026-10-26",
-  "n_locations": 146,
-  "n_drought": 45,
-  "persistent_drought": 22,
+  "n_locations": 182,
+  "n_drought": 62,
+  "persistent_drought": 31,
   "by_continent": {
    "Asia": {
-    "in_drought": 5,
-    "total": 23
+    "in_drought": 7,
+    "total": 29
    },
    "Europe": {
-    "in_drought": 17,
-    "total": 31
+    "in_drought": 23,
+    "total": 42
    },
    "Africa": {
-    "in_drought": 12,
-    "total": 32
+    "in_drought": 16,
+    "total": 40
    },
    "North America": {
-    "in_drought": 7,
-    "total": 17
+    "in_drought": 9,
+    "total": 21
    },
    "South America": {
-    "in_drought": 1,
-    "total": 7
+    "in_drought": 2,
+    "total": 10
    },
    "Oceania": {
-    "in_drought": 0,
-    "total": 7
+    "in_drought": 2,
+    "total": 11
    }
   },
   "driest": [
@@ -43,32 +43,32 @@
     "rain30_pct": 1.4
    },
    {
+    "name": "Papua New Guinea",
+    "country": "Papua New Guinea",
+    "spi3": -3.0,
+    "spi12": -1.8,
+    "rain30_pct": -66.6
+   },
+   {
+    "name": "South Sudan",
+    "country": "South Sudan",
+    "spi3": -3.0,
+    "spi12": -3.0,
+    "rain30_pct": -55.9
+   },
+   {
+    "name": "Switzerland",
+    "country": "Switzerland",
+    "spi3": -3.0,
+    "spi12": -3.0,
+    "rain30_pct": 5.9
+   },
+   {
     "name": "Hungary",
     "country": "Hungary",
     "spi3": -2.93,
     "spi12": -1.83,
     "rain30_pct": -2.4
-   },
-   {
-    "name": "Gabon",
-    "country": "Gabon",
-    "spi3": -2.68,
-    "spi12": -0.11,
-    "rain30_pct": 7.8
-   },
-   {
-    "name": "France",
-    "country": "France",
-    "spi3": -2.55,
-    "spi12": -1.28,
-    "rain30_pct": 39.0
-   },
-   {
-    "name": "Andorra",
-    "country": "Andorra",
-    "spi3": -2.52,
-    "spi12": 0.41,
-    "rain30_pct": 90.9
    }
   ],
   "wettest": [
