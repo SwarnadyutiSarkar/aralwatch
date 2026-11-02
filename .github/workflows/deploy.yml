@@ -1,0 +1,38 @@
+name: Deploy site
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Update data"]
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - name: Use the real pipeline data
+        run: |
+          test -f data/drought.json || { echo "::error::data/drought.json not found - run the 'Update data' workflow first"; exit 1; }
+          mkdir -p public/data
+          cp data/drought.json public/data/
+          cp data/briefing.json public/data/ 2>/dev/null || true
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: dist}
+      - id: deployment
+        uses: actions/deploy-pages@v4

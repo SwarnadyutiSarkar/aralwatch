@@ -1,2 +1,8 @@
+node_modules/
+dist/
 __pycache__/
 .DS_Store
+*.log
+.env*
+# real data is copied in from data/ at build time; never commit sample data here
+public/data/

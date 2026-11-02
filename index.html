@@ -1,104 +1,21 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AralWatch — Global Drought &amp; Rainfall Intelligence</title>
-<meta name="description" content="Interactive world map and dashboard of drought indices (SPI), rainfall anomalies and long-term trends by continent and country, built on ERA5 reanalysis. Includes Central Asian agricultural focus regions.">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-<style>
-:root{--bg:#FFF6E5;--card:#fff;--ink:#2B1B17;--mut:#7A5F52;--line:#F0DDB8}
-*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(100deg,#D62828,#F77F00 60%,#FCBF49);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
-h1{margin:0;font-size:28px;letter-spacing:-.5px}h1 span{color:var(--ink)}header p{margin:2px 0 0}
-#stamp{background:var(--ink);padding:6px 12px;border-radius:20px;font-size:13px}
-.note{display:none;text-align:center;padding:6px 12px;font-weight:600;background:var(--ink);color:#FCBF49}
-#kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;padding:16px 24px 0}
-.k{background:var(--card);border:2px solid var(--line);border-left:8px solid #F77F00;border-radius:10px;padding:8px 14px}.k b{display:block;font-size:24px;line-height:1.25}.k small{color:var(--mut)}
-main{display:grid;grid-template-columns:3fr 2fr;gap:16px;padding:16px 24px}@media(max-width:950px){main{grid-template-columns:1fr}}
-.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px;min-width:0}
-#ctl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}#ib{display:flex;gap:6px;flex-wrap:wrap}
-button,select,input[type=search]{font:inherit;border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:8px;padding:3px 9px}button{cursor:pointer}button.on{background:var(--ink);color:#FCBF49}
-label{color:var(--mut)}#map{height:540px;border-radius:8px;border:2px solid var(--ink)}.leaflet-tile-pane{filter:sepia(.3) saturate(1.25) brightness(1.03)}
-#legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:8px;font-size:12px}#legend i{display:inline-block;width:14px;height:14px;border:1px solid var(--ink);border-radius:3px;vertical-align:-2px;margin-right:4px}
-h2{margin:0 0 4px;font-size:19px}.meta{color:var(--mut);margin-bottom:6px}.cc{height:235px;position:relative;margin-top:10px}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0}.stats div{background:var(--bg);border-radius:8px;padding:3px 10px}.stats b{font-size:16px}
-table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;color:var(--mut);border-bottom:2px solid var(--ink);padding:6px}td{padding:6px;border-bottom:1px solid var(--line)}
-tr.r{cursor:pointer}tr.r:hover{background:#FFEBC2}.chip{padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;border:1px solid var(--ink);white-space:nowrap}
-#brief{display:none;margin:16px 24px 0;border-left:8px solid #D62828}#brief p{margin:6px 0}#bm{display:inline-block;font-size:12px;font-weight:600;background:var(--ink);color:#FCBF49;border-radius:12px;padding:2px 10px}
-footer{padding:8px 24px 28px;color:var(--mut);font-size:13px}
-</style></head><body>
-<header><div><h1>Aral<span>Watch</span></h1><p>Global drought &amp; rainfall intelligence · ERA5 reanalysis · Central Asia focus</p></div><div id="stamp">Loading…</div></header>
-<div class="note" id="demo">DEMO DATA — synthetic, for local testing only</div><div class="note" id="cov"></div>
-<section id="brief" class="card"><h2>Situation briefing</h2><span id="bm"></span> <small id="bd" style="color:var(--mut)"></small><div id="bt"></div></section>
-<section id="kpis"></section>
-<main>
- <div class="card"><div id="ctl"></div><div id="map"></div><div id="legend"></div></div>
- <aside class="card"><h2 id="rname">Select a location</h2><div class="meta" id="rmeta">Click a marker or a table row.</div><div class="stats" id="rstats"></div>
-  <div class="cc"><canvas id="c1"></canvas></div><div class="cc"><canvas id="c2"></canvas></div></aside>
-</main>
-<section class="card" style="margin:0 24px 16px"><h2>Locations ranked by current dryness</h2><div style="overflow-x:auto"><table><thead><tr><th>Location</th><th>Country</th><th>Agricultural focus</th><th>SPI-3</th><th>SPI-12</th><th>30-day rain</th><th>Status</th></tr></thead><tbody id="tb"></tbody></table></div>
- <p style="text-align:center"><button id="more">Show more</button></p></section>
-<footer><b>Method.</b> Daily precipitation from ECMWF ERA5 reanalysis (via the Open-Meteo Historical Weather API) aggregated to months. SPI = Standardized Precipitation Index (gamma fit per calendar month, 1991–2020 baseline); ≤ −1 is moderate drought or worse. SPI-3 = last 3 months, SPI-12 = last 12 months. “30-day rain” compares the latest 30 days with the 1991–2020 average for the same dates. Each marker is one ERA5 grid-cell sample (country centre point, or a Central Asian agricultural focus point), not an area average — large countries are only roughly represented. SPI is hidden (n/a) in hyper-arid places (&lt;100 mm/year). ERA5 lags real time by about 5–7 days. The situation briefing is generated only from the computed indicators; when AI-written, verify against the table. Data refreshed automatically by GitHub Actions. Contains modified Copernicus Climate Change Service information. Map © OpenStreetMap © CARTO.</footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script>
-const CARTO_KEY='cb1_4z5c_1_7e9005f3f1bcd5ce70511068';
-const COLS=['#8E0B1F','#D62828','#F77F00','#FCBF49','#F1E4C3','#7BD3C6','#2EC4B6','#0B7A75'];
-const LAB=['Extreme drought','Severe drought','Moderate drought','Mild dryness','Near normal','Mildly wet','Wet','Very wet'];
-const IND={spi3:{l:'SPI-3',t:[-2,-1.5,-1,-.5,.5,1,1.5],f:v=>v.toFixed(2)},spi12:{l:'SPI-12',t:[-2,-1.5,-1,-.5,.5,1,1.5],f:v=>v.toFixed(2)},
- anom30:{l:'30-day rain vs normal',t:[-80,-50,-25,-10,10,25,50],f:v=>(v>0?'+':'')+v.toFixed(0)+'%'}};
-const $=id=>document.getElementById(id),uniq=a=>[...new Set(a)].sort();
-let D,map,layer,c1,c2,S={k:'spi3',cont:'',sub:'',cty:'',q:'',ag:false,sz:'sev',lim:25,sel:null,shown:null};
-const idx=(v,k)=>{const t=IND[k].t;let i=0;while(i<t.length&&v>t[i])i++;return i},col=(v,k)=>v==null?'#B8A99A':COLS[idx(v,k)],fmt=(v,k)=>v==null?'n/a':IND[k].f(v);
-fetch('data/drought.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(init).catch(e=>{console.error(e);$('stamp').textContent='No data yet — run the “Update data” workflow'});
-function opts(id,o,all,v){$(id).innerHTML=`<option value="">${all}</option>`+o.map(x=>`<option${x==v?' selected':''}>${x}</option>`).join('')}
-function fill(){const P=D.points,c=S.cont,s=S.sub;opts('sc',uniq(P.map(p=>p.continent)),'All continents',c);
- opts('ss',uniq(P.filter(p=>!c||p.continent==c).map(p=>p.subregion)),'All subregions',s);
- opts('sy',uniq(P.filter(p=>(!c||p.continent==c)&&(!s||p.subregion==s)).map(p=>p.country)),'All countries',S.cty)}
-function init(d){D=d;$('stamp').textContent=`Data through ${d.data_through} · refreshed ${d.generated.slice(0,10)}`;
- if(d.demo)$('demo').style.display='block';
- if(d.coverage.loaded<d.coverage.total){$('cov').style.display='block';$('cov').textContent=`Global backfill in progress: ${d.coverage.loaded} of ${d.coverage.total} locations loaded — more appear after each automated update.`}
- map=L.map('map',{minZoom:2,worldCopyJump:true}).setView([28,45],2);
- L.tileLayer(`https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=${CARTO_KEY}`,{attribution:'© OpenStreetMap © CARTO',maxZoom:12}).addTo(map);layer=L.layerGroup().addTo(map);
- $('ctl').innerHTML=`<span id="ib"></span><select id="sc"></select><select id="ss"></select><select id="sy"></select><input type="search" id="q" placeholder="Search…" size="10"><select id="sz"><option value="sev">Size: severity</option><option value="var">Size: rainfall variability</option></select><label><input type="checkbox" id="ag"> Agricultural focus only</label>`;
- Object.entries(IND).forEach(([k,v])=>{const b=document.createElement('button');b.textContent=v.l;b.dataset.k=k;b.onclick=()=>{S.k=k;render()};$('ib').append(b)});
- fill();
- $('sc').onchange=e=>{S.cont=e.target.value;S.sub='';S.cty='';fill();S.lim=25;render(true)};
- $('ss').onchange=e=>{S.sub=e.target.value;S.cty='';fill();S.lim=25;render(true)};
- $('sy').onchange=e=>{S.cty=e.target.value;S.lim=25;render(true)};
- $('q').oninput=e=>{S.q=e.target.value.toLowerCase();S.lim=25;render(true)};
- $('sz').onchange=e=>{S.sz=e.target.value;render()};$('ag').onchange=e=>{S.ag=e.target.checked;S.lim=25;render(true)};
- $('more').onclick=()=>{S.lim+=50;render()};
- $('legend').innerHTML=COLS.map((c,i)=>`<span><i style="background:${c}"></i>${LAB[i]}</span>`).join('')+`<span><i style="background:#B8A99A"></i>n/a</span><span id="szn"></span>`;
- brief();S.sel=[...D.points].filter(p=>p.spi3!=null).sort((a,b)=>a.spi3-b.spi3)[0]||D.points[0];render(true)}
-function brief(){fetch('data/briefing.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(b=>{if(!b||!b.text)return;$('brief').style.display='block';
- $('bm').textContent=b.method=='claude'?'AI-written by Claude from the computed indicators':'Auto-generated from the indicators';$('bd').textContent=`Based on data through ${b.facts.data_through}`;
- const t=$('bt');t.innerHTML='';b.text.split(/\n\n+/).forEach(x=>{const p=document.createElement('p');p.textContent=x;t.append(p)})}).catch(()=>{})}
-const vis=()=>D.points.filter(p=>(!S.cont||p.continent==S.cont)&&(!S.sub||p.subregion==S.sub)&&(!S.cty||p.country==S.cty)&&(!S.ag||p.ag)&&(!S.q||(p.name+' '+p.country).toLowerCase().includes(S.q)));
-const rad=p=>{const v=p[S.k];if(S.sz=='var')return 5+Math.min(p.cv||0,.8)*15;return v==null?5:5+Math.min(Math.abs(S.k=='anom30'?v/40:v),3)*3.5};
-function render(fit){const k=S.k,P=vis(),ok=P.filter(p=>p.spi3!=null);document.querySelectorAll('#ctl button').forEach(b=>b.classList.toggle('on',b.dataset.k==k));
- $('szn').textContent=S.sz=='var'?'Circle size = year-to-year rainfall variability':'Circle size = severity of anomaly';
- layer.clearLayers();P.forEach(p=>{const r=rad(p);
-  const m=L.circleMarker([p.lat,p.lon],{radius:r,fillColor:col(p[k],k),color:'#2B1B17',weight:p.ag?3:1,fillOpacity:.92});
-  m.bindTooltip(`<b>${p.name}</b>, ${p.country}<br>${IND[k].l}: ${fmt(p[k],k)}`);m.on('click',()=>{S.sel=p;render()});m.addTo(layer);
-  if(p===S.sel)L.circleMarker([p.lat,p.lon],{radius:r+6,fill:false,color:'#2B1B17',weight:3,dashArray:'4 4'}).addTo(layer)});
- if(fit&&P.length){if(S.cont||S.sub||S.cty||S.q||S.ag)map.fitBounds(L.latLngBounds(P.map(p=>[p.lat,p.lon])),{padding:[30,30],maxZoom:6});else map.setView([28,45],2)}
- const dr=ok.filter(p=>p.spi3<=-1),ag=ok.filter(p=>p.ag&&p.spi3<=-1),mean=ok.reduce((s,p)=>s+p.spi3,0)/(ok.length||1),w=[...ok].sort((a,b)=>a.spi3-b.spi3)[0];
- $('kpis').innerHTML=[[`${P.length}`,'locations in selection','#2B1B17'],[`${dr.length} / ${ok.length}`,'in drought (SPI-3 ≤ −1)','#D62828'],[`${ag.length}`,'agricultural focus areas under stress','#F77F00'],
-  [ok.length?mean.toFixed(2):'n/a','mean SPI-3','#FCBF49'],[w?w.name:'–','driest location right now','#8E0B1F']].map(([a,b,c])=>`<div class="k" style="border-left-color:${c}"><b>${a}</b><small>${b}</small></div>`).join('');
- const rows=[...P].sort((a,b)=>(a[k]??99)-(b[k]??99));
- $('tb').innerHTML=rows.slice(0,S.lim).map(p=>{const i=idx(p.spi3,'spi3'),n=p.spi3==null;return `<tr class="r" data-id="${p.id}"><td><b>${p.name}</b></td><td>${p.country}</td><td>${p.crop||'—'}</td><td>${fmt(p.spi3,'spi3')}</td><td>${fmt(p.spi12,'spi12')}</td><td>${fmt(p.anom30,'anom30')}</td><td><span class="chip" style="background:${col(p.spi3,'spi3')};color:${!n&&(i<2||i>6)?'#fff':'#2B1B17'}">${n?'n/a (arid)':LAB[i]}</span></td></tr>`}).join('');
- $('more').style.display=rows.length>S.lim?'inline-block':'none';
- document.querySelectorAll('tr.r').forEach(r=>r.onclick=()=>{S.sel=D.points.find(p=>p.id==r.dataset.id);render();scrollTo({top:0,behavior:'smooth'})});
- if(S.sel&&S.shown!==S.sel){S.shown=S.sel;detail(S.sel)}}
-function trend(y,a){const n=y.length,mx=y.reduce((s,v)=>s+v,0)/n,my=a.reduce((s,v)=>s+v,0)/n;let nu=0,de=0;y.forEach((v,i)=>{nu+=(v-mx)*(a[i]-my);de+=(v-mx)**2});const b=nu/de;return{b,fit:y.map(v=>my+b*(v-mx))}}
-function detail(p){const ys=p.annual.map((_,i)=>p.y0+i),t=trend(ys,p.annual);
- $('rname').textContent=`${p.name}, ${p.country}`;$('rmeta').textContent=(p.kind=='region'?'Central Asian agricultural focus point':'Country-level sample (centre point)')+` · ${p.subregion}`+(p.crop?` · ${p.crop}`:'')+(p.arid?' · hyper-arid: SPI not reliable':'');
- $('rstats').innerHTML=`<div>SPI-3 <b>${fmt(p.spi3,'spi3')}</b></div><div>SPI-12 <b>${fmt(p.spi12,'spi12')}</b></div><div>30-day rain <b>${fmt(p.anom30,'anom30')}</b></div><div>Mean annual <b>${p.mean} mm</b></div><div>Trend <b>${(t.b>0?'+':'')+(t.b*10).toFixed(0)} mm/decade</b></div>`;
- const bg=p.s3.map(v=>col(v,'spi3'));
- if(!c1){const o={responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},animation:{duration:700,easing:'easeOutCubic'},plugins:{legend:{labels:{boxWidth:12}}}};
-  c1=new Chart($('c1'),{data:{labels:D.months,datasets:[{type:'bar',label:'SPI-3 (monthly)',data:p.s3,backgroundColor:bg,borderColor:'#2B1B17',borderWidth:.5},
-   {type:'line',label:'SPI-12',data:p.s12,borderColor:'#2B1B17',pointRadius:0,borderWidth:2.5,tension:.35,spanGaps:true}]},options:{...o,scales:{x:{ticks:{maxTicksLimit:8}},y:{min:-3,max:3}}}});
-  c2=new Chart($('c2'),{data:{labels:ys,datasets:[{type:'bar',label:'Annual precipitation (mm)',data:p.annual,backgroundColor:'#F77F00'},
-   {type:'line',label:'Linear trend',data:t.fit,borderColor:'#8E0B1F',borderWidth:3,pointRadius:0}]},options:o})}
- else{c1.data.datasets[0].data=p.s3;c1.data.datasets[0].backgroundColor=bg;c1.data.datasets[1].data=p.s12;c1.update();
-  c2.data.labels=ys;c2.data.datasets[0].data=p.annual;c2.data.datasets[1].data=t.fit;c2.update()}}
-</script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AralWatch — Global Drought &amp; Rainfall Intelligence</title>
+    <meta name="description" content="Interactive world map and dashboard of drought indices (SPI), rainfall anomalies, and long-term precipitation trends by continent and country, built on ERA5 reanalysis with Central Asian agricultural focus regions." />
+    <meta property="og:title" content="AralWatch — Global Drought &amp; Rainfall Intelligence" />
+    <meta property="og:description" content="Interactive world map and dashboard of drought indices (SPI), rainfall anomalies, and long-term precipitation trends by continent and country, built on ERA5 reanalysis with Central Asian agricultural focus regions." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-sky-100 selection:text-sky-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

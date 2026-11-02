@@ -1,18 +1,17 @@
-# AralWatch — Central Asian Drought Intelligence
-Interactive map + dashboard of drought indices (SPI-3, SPI-12), 30-day rainfall anomalies, 10-year SPI history and 1991–present precipitation trends for 31 regions across Kazakhstan, Uzbekistan, Kyrgyzstan, Tajikistan and Turkmenistan, highlighting agricultural regions.
+# AralWatch — Global Drought & Rainfall Intelligence
+Interactive world map and dashboard: SPI-3 / SPI-12 drought indices, 30-day rainfall anomaly, SPI history and long-term rainfall trends for ~195 countries plus 31 Central Asian agricultural focus points. Filter by continent, subregion, country, search or agricultural focus.
 
-**Live site:** `https://<your-username>.github.io/aralwatch/`
+**Stack:** React + TypeScript + Vite + Tailwind, Leaflet, Chart.js; Python data pipeline; GitHub Actions + GitHub Pages.
 
-## How it works
-`scripts/build_data.py` pulls ERA5 daily precipitation/ET0 (Open-Meteo Historical Weather API), computes SPI against a 1991–2020 gamma baseline and writes `data/drought.json`. A GitHub Action (`.github/workflows/update-data.yml`) re-runs it daily and commits the result; the static site (`index.html`, Leaflet + Chart.js) reads that file.
+## Architecture
+- `scripts/build_data.py` — pulls ERA5 daily precipitation (Open-Meteo Historical Weather API, `models=era5`), keeps a compact store in `data/store.json`, computes SPI (gamma fit, 1991–2020 baseline) and writes `data/drought.json` and `data/briefing.json`. Runs every 6 hours (`.github/workflows/update-data.yml`).
+- `src/` — the React app. At deploy time (`.github/workflows/deploy.yml`) the latest `data/*.json` is copied into the build and the site is published to GitHub Pages.
 
 ## Run locally
-```
-pip install numpy pandas scipy requests
-python scripts/build_data.py          # live data
-python -m http.server 8000            # open http://localhost:8000
-```
-Use `--demo` for synthetic data (the site shows a banner when demo data is loaded).
+    pip install numpy pandas scipy requests
+    python scripts/build_data.py --demo        # synthetic data, testing only
+    mkdir -p public/data && cp data/drought.json data/briefing.json public/data/
+    npm install && npm run dev
 
-## Data & limitations
-ERA5 reanalysis (ECMWF/Copernicus C3S), ~5–7 day latency. Values are point (grid-cell) samples at regional centres, not area averages. Not an official drought monitor.
+## Limits
+ERA5 reanalysis, ~5–7 day latency. Each marker is one grid-cell sample (country centre point or an agricultural focus point), not an area average. Not an official drought monitor.

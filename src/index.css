@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.leaflet-container {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #e2e8f0;
+}
+
+.leaflet-tooltip {
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.45;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: #0f172a;
+}
+
+.tt-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.tt-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #cbd5e1;
+}
