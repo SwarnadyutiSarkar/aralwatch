@@ -1,37 +1,37 @@
 {
- "generated": "2026-11-02T11:17:39+00:00",
+ "generated": "2026-11-02T15:53:33+00:00",
  "method": "rules",
  "model": null,
- "text": "As of 2026-10-26, 62 of 182 monitored locations (34%) show moderate or worse short-term drought (SPI-3 at or below -1); 31 are also dry over 12 months. Driest countries right now: Eritrea (SPI-3 -3.00), Papua New Guinea (SPI-3 -3.00), South Sudan (SPI-3 -3.00). Europe has the highest share of countries in drought (23 of 42). Fastest deterioration versus last month: Aktobe (-2.09 SPI), Azerbaijan (-1.85 SPI), Montenegro (-1.76 SPI). In Central Asia, 3 of 29 agricultural focus areas are under drought stress, led by Karaganda, Bishkek.",
+ "text": "As of 2026-10-26, 66 of 202 monitored locations (33%) show moderate or worse short-term drought (SPI-3 at or below -1); 33 are also dry over 12 months. Driest countries right now: Eritrea (SPI-3 -3.00), Papua New Guinea (SPI-3 -3.00), South Sudan (SPI-3 -3.00). Europe has the highest share of countries in drought (24 of 45). Fastest deterioration versus last month: Aktobe (-2.09 SPI), Azerbaijan (-1.85 SPI), Montenegro (-1.76 SPI). In Central Asia, 3 of 29 agricultural focus areas are under drought stress, led by Karaganda, Bishkek.",
  "facts": {
   "data_through": "2026-10-26",
-  "n_locations": 182,
-  "n_drought": 62,
-  "persistent_drought": 31,
+  "n_locations": 202,
+  "n_drought": 66,
+  "persistent_drought": 33,
   "by_continent": {
    "Asia": {
     "in_drought": 7,
-    "total": 29
+    "total": 34
    },
    "Europe": {
-    "in_drought": 23,
-    "total": 42
+    "in_drought": 24,
+    "total": 45
    },
    "Africa": {
-    "in_drought": 16,
-    "total": 40
+    "in_drought": 17,
+    "total": 45
    },
    "North America": {
-    "in_drought": 9,
-    "total": 21
+    "in_drought": 10,
+    "total": 23
    },
    "South America": {
-    "in_drought": 2,
-    "total": 10
+    "in_drought": 3,
+    "total": 12
    },
    "Oceania": {
     "in_drought": 2,
-    "total": 11
+    "total": 14
    }
   },
   "driest": [
@@ -64,11 +64,11 @@
     "rain30_pct": 5.9
    },
    {
-    "name": "Hungary",
-    "country": "Hungary",
-    "spi3": -2.93,
-    "spi12": -1.83,
-    "rain30_pct": -2.4
+    "name": "Uganda",
+    "country": "Uganda",
+    "spi3": -3.0,
+    "spi12": -3.0,
+    "rain30_pct": -34.1
    }
   ],
   "wettest": [
