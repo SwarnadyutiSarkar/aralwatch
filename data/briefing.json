@@ -1,28 +1,28 @@
 {
- "generated": "2026-11-06T19:19:56+00:00",
+ "generated": "2026-11-07T05:56:53+00:00",
  "method": "rules",
  "model": null,
- "text": "As of 2026-10-30, 66 of 203 monitored locations (33%) show moderate or worse short-term drought (SPI-3 at or below -1); 33 are also dry over 12 months. Driest countries right now: Eritrea (SPI-3 -3.00), Papua New Guinea (SPI-3 -3.00), South Sudan (SPI-3 -3.00). Europe has the highest share of countries in drought (24 of 45). Fastest deterioration versus last month: Aktobe (-2.09 SPI), Azerbaijan (-1.85 SPI), Montenegro (-1.76 SPI). In Central Asia, 3 of 29 agricultural focus areas are under drought stress, led by Karaganda, Bishkek.",
+ "text": "As of 2026-10-31, 59 of 204 monitored locations (29%) show moderate or worse short-term drought (SPI-3 at or below -1); 35 are also dry over 12 months. Driest countries right now: Chad (SPI-3 -3.00), Guyana (SPI-3 -3.00), India (SPI-3 -3.00). North America has the highest share of countries in drought (11 of 23). Fastest deterioration versus last month: Micronesia (-2.38 SPI), Atyrau (-2.23 SPI), India (-2.15 SPI). In Central Asia, 6 of 29 agricultural focus areas are under drought stress, led by Atyrau, Bishkek.",
  "facts": {
-  "data_through": "2026-10-30",
-  "n_locations": 203,
-  "n_drought": 66,
-  "persistent_drought": 33,
+  "data_through": "2026-10-31",
+  "n_locations": 204,
+  "n_drought": 59,
+  "persistent_drought": 35,
   "by_continent": {
    "Asia": {
-    "in_drought": 7,
-    "total": 35
+    "in_drought": 10,
+    "total": 36
    },
    "Europe": {
-    "in_drought": 24,
+    "in_drought": 13,
     "total": 45
    },
    "Africa": {
-    "in_drought": 17,
+    "in_drought": 11,
     "total": 45
    },
    "North America": {
-    "in_drought": 10,
+    "in_drought": 11,
     "total": 23
    },
    "South America": {
@@ -30,120 +30,120 @@
     "total": 12
    },
    "Oceania": {
-    "in_drought": 2,
+    "in_drought": 5,
     "total": 14
    }
   },
   "driest": [
    {
-    "name": "Eritrea",
-    "country": "Eritrea",
+    "name": "Chad",
+    "country": "Chad",
     "spi3": -3.0,
-    "spi12": -3.0,
-    "rain30_pct": -16.0
+    "spi12": -2.06,
+    "rain30_pct": null
+   },
+   {
+    "name": "Guyana",
+    "country": "Guyana",
+    "spi3": -3.0,
+    "spi12": 0.85,
+    "rain30_pct": -68.3
+   },
+   {
+    "name": "India",
+    "country": "India",
+    "spi3": -3.0,
+    "spi12": -1.05,
+    "rain30_pct": -99.0
    },
    {
     "name": "Papua New Guinea",
     "country": "Papua New Guinea",
     "spi3": -3.0,
-    "spi12": -1.8,
-    "rain30_pct": -60.9
+    "spi12": -2.37,
+    "rain30_pct": -55.3
    },
    {
     "name": "South Sudan",
     "country": "South Sudan",
     "spi3": -3.0,
     "spi12": -3.0,
-    "rain30_pct": -79.9
-   },
-   {
-    "name": "Switzerland",
-    "country": "Switzerland",
-    "spi3": -3.0,
-    "spi12": -3.0,
-    "rain30_pct": 8.8
-   },
-   {
-    "name": "Uganda",
-    "country": "Uganda",
-    "spi3": -3.0,
-    "spi12": -3.0,
-    "rain30_pct": -24.0
+    "rain30_pct": -80.1
    }
   ],
   "wettest": [
    {
-    "name": "Chile",
-    "country": "Chile",
-    "spi3": 3.0,
-    "spi12": 2.35,
-    "rain30_pct": 332.5
+    "name": "Seychelles",
+    "country": "Seychelles",
+    "spi3": 2.64,
+    "spi12": 1.15,
+    "rain30_pct": 261.1
    },
    {
-    "name": "Lesotho",
-    "country": "Lesotho",
-    "spi3": 2.86,
-    "spi12": 2.68,
-    "rain30_pct": -29.1
+    "name": "Cyprus",
+    "country": "Cyprus",
+    "spi3": 2.4,
+    "spi12": 3.0,
+    "rain30_pct": 199.5
    },
    {
-    "name": "Micronesia",
-    "country": "Micronesia",
-    "spi3": 2.63,
-    "spi12": 2.12,
-    "rain30_pct": -49.5
+    "name": "Finland",
+    "country": "Finland",
+    "spi3": 2.39,
+    "spi12": 1.39,
+    "rain30_pct": 18.1
    }
   ],
   "worsening": [
    {
-    "name": "Aktobe",
+    "name": "Micronesia",
+    "country": "Micronesia",
+    "spi3": 0.25,
+    "spi12": 1.82,
+    "rain30_pct": -47.7,
+    "change_vs_last_month": -2.38
+   },
+   {
+    "name": "Atyrau",
     "country": "Kazakhstan",
-    "spi3": -1.0,
-    "spi12": 0.92,
-    "rain30_pct": -61.0,
-    "change_vs_last_month": -2.09
+    "spi3": -2.66,
+    "spi12": -0.22,
+    "rain30_pct": -100.0,
+    "change_vs_last_month": -2.23
    },
    {
-    "name": "Azerbaijan",
-    "country": "Azerbaijan",
-    "spi3": -2.29,
-    "spi12": -0.48,
-    "rain30_pct": 110.1,
-    "change_vs_last_month": -1.85
-   },
-   {
-    "name": "Montenegro",
-    "country": "Montenegro",
-    "spi3": -1.19,
-    "spi12": 0.18,
-    "rain30_pct": -39.2,
-    "change_vs_last_month": -1.76
+    "name": "India",
+    "country": "India",
+    "spi3": -3.0,
+    "spi12": -1.05,
+    "rain30_pct": -99.0,
+    "change_vs_last_month": -2.15
    }
   ],
   "central_asia": {
    "ag_total": 29,
-   "ag_in_drought": 3,
+   "ag_in_drought": 6,
    "driest": [
     {
-     "name": "Karaganda",
+     "name": "Atyrau",
      "country": "Kazakhstan",
-     "spi3": -1.4,
-     "spi12": -1.9,
-     "rain30_pct": 6.0
+     "spi3": -2.66,
+     "spi12": -0.22,
+     "rain30_pct": -100.0
     },
     {
      "name": "Bishkek",
      "country": "Kyrgyzstan",
-     "spi3": -1.23,
-     "spi12": -0.6,
-     "rain30_pct": -47.2
+     "spi3": -1.76,
+     "spi12": -0.82,
+     "rain30_pct": -58.1
     },
     {
-     "name": "Aktobe",
+     "name": "Almaty",
      "country": "Kazakhstan",
-     "spi3": -1.0,
-     "spi12": 0.92,
-     "rain30_pct": -61.0
+     "spi3": -1.74,
+     "spi12": -0.56,
+     "rain30_pct": -33.1
     }
    ]
   }
